@@ -2,6 +2,15 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, Linkedin, MapPin, Send } from "lucide-react";
 
+/* Netlify form encoding helper */
+const encode = (data) =>
+  Object.keys(data)
+    .map(
+      (key) =>
+        encodeURIComponent(key) + "=" + encodeURIComponent(data[key])
+    )
+    .join("&");
+
 export default function Contact() {
   const [status, setStatus] = useState("idle");
 
@@ -9,15 +18,25 @@ export default function Contact() {
     e.preventDefault();
     setStatus("sending");
 
-    const formData = new FormData(e.target);
+    const form = e.target;
+    const formData = new FormData(form);
+    const payload = {};
+
+    formData.forEach((value, key) => {
+      payload[key] = value;
+    });
 
     fetch("/", {
       method: "POST",
-      body: formData,
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: encode({
+        "form-name": "contact",
+        ...payload,
+      }),
     })
       .then(() => {
         setStatus("success");
-        e.target.reset();
+        form.reset();
       })
       .catch(() => {
         setStatus("error");
@@ -133,7 +152,7 @@ export default function Contact() {
             </div>
           </motion.div>
 
-          {/* RIGHT: Netlify Contact Form */}
+          {/* RIGHT: Netlify Form */}
           <motion.form
             name="contact"
             method="POST"
@@ -199,6 +218,13 @@ export default function Contact() {
           </motion.form>
         </div>
       </div>
+
+      {/* 🔒 Netlify form detection (REQUIRED) */}
+      <form name="contact" data-netlify="true" hidden>
+        <input type="text" name="name" />
+        <input type="email" name="email" />
+        <textarea name="message"></textarea>
+      </form>
     </section>
   );
 }
