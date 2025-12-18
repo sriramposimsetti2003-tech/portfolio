@@ -1,15 +1,7 @@
 import React, { useState } from "react";
+import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
 import { Mail, Phone, Linkedin, MapPin, Send } from "lucide-react";
-
-/* Netlify form encoding helper */
-const encode = (data) =>
-  Object.keys(data)
-    .map(
-      (key) =>
-        encodeURIComponent(key) + "=" + encodeURIComponent(data[key])
-    )
-    .join("&");
 
 export default function Contact() {
   const [status, setStatus] = useState("idle");
@@ -18,29 +10,22 @@ export default function Contact() {
     e.preventDefault();
     setStatus("sending");
 
-    const form = e.target;
-    const formData = new FormData(form);
-    const payload = {};
-
-    formData.forEach((value, key) => {
-      payload[key] = value;
-    });
-
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encode({
-        "form-name": "contact",
-        ...payload,
-      }),
-    })
-      .then(() => {
-        setStatus("success");
-        form.reset();
-      })
-      .catch(() => {
-        setStatus("error");
-      });
+    emailjs
+      .sendForm(
+        "service_9klyfwq",     // 🔴 replace
+        "template_y7wjttd",    // 🔴 replace
+        e.target,
+        "De6BBDHAV7fjUdl9H"      // 🔴 replace
+      )
+      .then(
+        () => {
+          setStatus("success");
+          e.target.reset();
+        },
+        () => {
+          setStatus("error");
+        }
+      );
   };
 
   const contactInfo = [
@@ -91,7 +76,7 @@ export default function Contact() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-16">
-          {/* LEFT: Contact Info */}
+          {/* LEFT */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -99,14 +84,9 @@ export default function Contact() {
             transition={{ duration: 0.6 }}
             className="space-y-8"
           >
-            <div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">
-                Contact Information
-              </h3>
-              <p className="text-slate-600">
-                Reach out through any of the channels below.
-              </p>
-            </div>
+            <h3 className="text-2xl font-bold text-slate-900">
+              Contact Information
+            </h3>
 
             <div className="space-y-4">
               {contactInfo.map((info, i) => (
@@ -122,7 +102,7 @@ export default function Contact() {
                       href={info.href}
                       target={info.href.startsWith("http") ? "_blank" : undefined}
                       rel="noopener noreferrer"
-                      className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100 hover:border-indigo-200 hover:shadow-lg transition-all"
+                      className="flex items-center gap-4 p-4 bg-white rounded-2xl border hover:shadow-lg transition"
                     >
                       <div className="p-3 bg-indigo-50 rounded-xl">
                         <info.icon className="w-6 h-6 text-indigo-600" />
@@ -134,60 +114,40 @@ export default function Contact() {
                         </p>
                       </div>
                     </a>
-                  ) : (
-                    <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100">
-                      <div className="p-3 bg-slate-100 rounded-xl">
-                        <info.icon className="w-6 h-6 text-slate-600" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-slate-500">{info.label}</p>
-                        <p className="font-semibold text-slate-900">
-                          {info.value}
-                        </p>
-                      </div>
-                    </div>
-                  )}
+                  ) : null}
                 </motion.div>
               ))}
             </div>
           </motion.div>
 
-          {/* RIGHT: Netlify Form */}
+          {/* RIGHT */}
           <motion.form
-            name="contact"
-            method="POST"
-            data-netlify="true"
-            data-netlify-honeypot="bot-field"
             onSubmit={handleSubmit}
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="bg-white rounded-3xl p-8 border border-slate-100 shadow-lg space-y-5"
+            className="bg-white rounded-3xl p-8 shadow-lg space-y-5"
           >
-            {/* Required hidden fields */}
-            <input type="hidden" name="form-name" value="contact" />
-            <input type="hidden" name="bot-field" />
-
-            <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+            <h3 className="text-xl font-bold flex items-center gap-2">
               <Send className="w-5 h-5 text-indigo-500" />
               Send a Message
             </h3>
 
             <input
               type="text"
-              name="name"
+              name="from_name"
               placeholder="Your Name"
               required
-              className="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none"
+              className="w-full p-3 rounded-xl border focus:ring-2 focus:ring-indigo-500"
             />
 
             <input
               type="email"
-              name="email"
+              name="reply_to"
               placeholder="Your Email"
               required
-              className="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none"
+              className="w-full p-3 rounded-xl border focus:ring-2 focus:ring-indigo-500"
             />
 
             <textarea
@@ -195,13 +155,13 @@ export default function Contact() {
               rows="5"
               placeholder="Your Message"
               required
-              className="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none resize-none"
+              className="w-full p-3 rounded-xl border focus:ring-2 focus:ring-indigo-500 resize-none"
             />
 
             <button
               type="submit"
               disabled={status === "sending"}
-              className="w-full h-12 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition disabled:opacity-60"
+              className="w-full h-12 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 disabled:opacity-60"
             >
               {status === "sending"
                 ? "Sending..."
@@ -212,19 +172,12 @@ export default function Contact() {
 
             {status === "error" && (
               <p className="text-red-500 text-sm text-center">
-                Something went wrong. Please try again.
+                Failed to send message. Try again.
               </p>
             )}
           </motion.form>
         </div>
       </div>
-
-      {/* 🔒 Netlify form detection (REQUIRED) */}
-      <form name="contact" data-netlify="true" hidden>
-        <input type="text" name="name" />
-        <input type="email" name="email" />
-        <textarea name="message"></textarea>
-      </form>
     </section>
   );
 }
