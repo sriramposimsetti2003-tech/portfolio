@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  Mail,
-  Phone,
-  Linkedin,
-  MapPin,
-  Send,
-} from "lucide-react";
+import { Mail, Phone, Linkedin, MapPin, Send } from "lucide-react";
 
 export default function Contact() {
   const [form, setForm] = useState({
@@ -17,12 +11,6 @@ export default function Contact() {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Message sent successfully 🚀");
-    setForm({ name: "", email: "", message: "" });
   };
 
   const contactInfo = [
@@ -56,7 +44,6 @@ export default function Contact() {
     <div className="min-h-screen pt-24 pb-20 relative">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-slate-50 to-white -z-10" />
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-indigo-100/50 to-cyan-100/50 rounded-full blur-3xl -z-10" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Heading */}
@@ -74,76 +61,41 @@ export default function Contact() {
 
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="space-y-8"
-          >
-            <div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">
-                Ready to Start a Project?
-              </h3>
-              <p className="text-slate-600 leading-relaxed">
-                Whether you need a full-stack application, AI integration,
-                or a developer to join your team — I'm ready to help.
-              </p>
-            </div>
+          <div className="space-y-4">
+            {contactInfo.map((info, i) => (
+              <div
+                key={i}
+                className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100"
+              >
+                <div className="p-3 bg-indigo-50 rounded-xl">
+                  <info.icon className="w-6 h-6 text-indigo-600" />
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500">{info.label}</p>
+                  <p className="font-semibold text-slate-900">
+                    {info.value}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
 
-            <div className="space-y-4">
-              {contactInfo.map((info, i) => (
-                <motion.div
-                  key={info.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                >
-                  {info.href ? (
-                    <a
-                      href={info.href}
-                      target={info.href.startsWith("http") ? "_blank" : undefined}
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100 hover:border-indigo-200 hover:shadow-lg transition-all group"
-                    >
-                      <div className="p-3 bg-indigo-50 rounded-xl">
-                        <info.icon className="w-6 h-6 text-indigo-600" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-slate-500">{info.label}</p>
-                        <p className="font-semibold text-slate-900">
-                          {info.value}
-                        </p>
-                      </div>
-                    </a>
-                  ) : (
-                    <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100">
-                      <div className="p-3 bg-slate-100 rounded-xl">
-                        <info.icon className="w-6 h-6 text-slate-600" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-slate-500">{info.label}</p>
-                        <p className="font-semibold text-slate-900">
-                          {info.value}
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Contact Form */}
+          {/* ✅ NETLIFY FORM */}
           <motion.form
-            onSubmit={handleSubmit}
+            name="contact"
+            method="POST"
+            data-netlify="true"
+            data-netlify-honeypot="bot-field"
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="bg-white rounded-3xl p-8 border border-slate-100 shadow-lg space-y-5"
           >
+            {/* REQUIRED hidden input */}
+            <input type="hidden" name="form-name" value="contact" />
+            <input type="hidden" name="bot-field" />
+
             <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
               <Send className="w-5 h-5 text-indigo-500" />
               Send a Message
@@ -153,30 +105,27 @@ export default function Contact() {
               type="text"
               name="name"
               placeholder="Your Name"
-              value={form.name}
-              onChange={handleChange}
               required
-              className="w-full p-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              onChange={handleChange}
+              className="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500"
             />
 
             <input
               type="email"
               name="email"
               placeholder="Your Email"
-              value={form.email}
-              onChange={handleChange}
               required
-              className="w-full p-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              onChange={handleChange}
+              className="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500"
             />
 
             <textarea
               name="message"
               rows="5"
               placeholder="Your Message"
-              value={form.message}
-              onChange={handleChange}
               required
-              className="w-full p-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+              onChange={handleChange}
+              className="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 resize-none"
             />
 
             <button
