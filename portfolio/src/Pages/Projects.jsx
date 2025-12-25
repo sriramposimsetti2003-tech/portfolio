@@ -5,6 +5,39 @@ import ProjectCard from "../Components/portfolio/ProjectCard";
 export default function Projects() {
   const projects = [
     {
+      title: "EY – GenIAus",
+      client: "Ernst & Young (EY)",
+      domain: "AI-Driven Enterprise Automation & Analytics",
+      period: "March 2025 – Present",
+      description:
+        "An AI-powered enterprise platform designed to enhance operational efficiency and streamline business processes using intelligent automation, predictive analytics, and real-time ML-driven insights across multiple domains.",
+      technologies: [
+        "Python",
+        "Scikit-learn",
+        "TensorFlow",
+        "PyTorch",
+        "Pandas",
+        "NumPy",
+        "MLflow",
+        "FastAPI",
+        "Docker",
+        "AWS",
+        "Azure ML",
+        "SQL",
+        "GitHub",
+      ],
+      highlights: [
+        "Designed end-to-end ML solutions aligned with enterprise automation use cases",
+        "Built and optimized models for prediction, classification, and anomaly detection",
+        "Implemented ML pipelines with MLflow for experiment tracking and versioning",
+        "Developed FastAPI-based REST services for real-time and batch inference",
+        "Containerized ML services with Docker and deployed on AWS infrastructure",
+        "Implemented model monitoring, drift detection, and retraining strategies",
+        "Collaborated with cross-functional teams to integrate ML into enterprise systems",
+        "Prepared technical documentation and presented insights to stakeholders",
+      ],
+    },
+    {
       title: "Batesville Digital Platform",
       client: "Batesville (Hillenbrand Group)",
       domain: "Funeral Services & Manufacturing",
@@ -51,7 +84,7 @@ export default function Projects() {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-20">
           {[
-            { value: "5+", label: "Technologies per project" },
+            { value: "2", label: "Technologies per project" },
             { value: "Enterprise", label: "Scale solutions" },
             { value: "Production", label: "Ready deployments" },
           ].map((stat, i) => (
@@ -64,7 +97,6 @@ export default function Projects() {
               viewport={{ once: true }}
               className="group relative"
             >
-              {/* Glow */}
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-400/20 via-purple-400/20 to-pink-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               <div className="relative text-center p-8 bg-white rounded-2xl border border-slate-200 transition-all duration-500 hover:border-indigo-300 hover:shadow-xl hover:shadow-indigo-500/10">
@@ -78,7 +110,6 @@ export default function Projects() {
             </motion.div>
           ))}
         </div>
-
 
         <motion.div
           initial={{ opacity: 0 }}
