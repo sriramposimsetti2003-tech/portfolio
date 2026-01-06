@@ -52,7 +52,7 @@ export default function Projects() {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-20">
           {[
-            { value: "2", label: "Technologies per project" },
+            { value: "1", label: "Technologies per project" },
             { value: "Enterprise", label: "Scale solutions" },
             { value: "Production", label: "Ready deployments" },
           ].map((stat, i) => (
