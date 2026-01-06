@@ -4,39 +4,7 @@ import ProjectCard from "../Components/portfolio/ProjectCard";
 
 export default function Projects() {
   const projects = [
-    {
-      title: "EY – GenIAus",
-      client: "Ernst & Young (EY)",
-      domain: "AI-Driven Enterprise Automation & Analytics",
-      period: "March 2025 – Present",
-      description:
-        "An AI-powered enterprise platform designed to enhance operational efficiency and streamline business processes using intelligent automation, predictive analytics, and real-time ML-driven insights across multiple domains.",
-      technologies: [
-        "Python",
-        "Scikit-learn",
-        "TensorFlow",
-        "PyTorch",
-        "Pandas",
-        "NumPy",
-        "MLflow",
-        "FastAPI",
-        "Docker",
-        "AWS",
-        "Azure ML",
-        "SQL",
-        "GitHub",
-      ],
-      highlights: [
-        "Designed end-to-end ML solutions aligned with enterprise automation use cases",
-        "Built and optimized models for prediction, classification, and anomaly detection",
-        "Implemented ML pipelines with MLflow for experiment tracking and versioning",
-        "Developed FastAPI-based REST services for real-time and batch inference",
-        "Containerized ML services with Docker and deployed on AWS infrastructure",
-        "Implemented model monitoring, drift detection, and retraining strategies",
-        "Collaborated with cross-functional teams to integrate ML into enterprise systems",
-        "Prepared technical documentation and presented insights to stakeholders",
-      ],
-    },
+    
     {
       title: "Batesville Digital Platform",
       client: "Batesville (Hillenbrand Group)",
